@@ -3,18 +3,7 @@
 A production-grade DevOps platform built from scratch demonstrating end-to-end automation.
 
 ## Architecture
-Developer pushes code
-       ↓
-GitHub Actions CI/CD Pipeline
-       ↓ Test → Build → Push → Deploy
-DockerHub (Image Registry)
-       ↓
-Kubernetes Cluster (minikube)
-       ↓ 2 replicas, auto-healing, rolling updates
-Flask Application
-       ↓ /health, /metrics-test endpoints
-Prometheus + Grafana
-       ↓ Real-time monitoring + alerts
+Developer pushes code -> GitHub Actions CI/CD Pipeline -> Test → Build → Push → Deploy -> DockerHub (Image Registry) -> Kubernetes Cluster (minikube) -> 2 replicas, auto-healing, rolling updates -> Flask Application -> /health, /metrics-test endpoints -> Prometheus + Grafana -> Real-time monitoring + alerts
 
 ## Tech Stack
 
