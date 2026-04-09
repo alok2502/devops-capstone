@@ -3,8 +3,17 @@
 A production-grade DevOps platform built from scratch demonstrating end-to-end automation.
 
 ## Architecture
-Developer pushes code -> GitHub Actions CI/CD Pipeline -> Test → Build → Push → Deploy -> DockerHub (Image Registry) -> Kubernetes Cluster (minikube) -> 2 replicas, auto-healing, rolling updates -> Flask Application -> /health, /metrics-test endpoints -> Prometheus + Grafana -> Real-time monitoring + alerts
 
+```
+Code Push → GitHub Actions → Test → Build → Push to DockerHub
+                                          ↓
+                              Kubernetes Cluster
+                              ├── 2 pods (auto-healing)
+                              ├── ConfigMap (env config)
+                              └── ReadinessProbe (zero downtime)
+                                          ↓
+                              Prometheus + Grafana (monitoring)
+```
 ## Tech Stack
 
 | Layer | Technology |
@@ -27,23 +36,27 @@ Developer pushes code -> GitHub Actions CI/CD Pipeline -> Test → Build → Pus
 - **Config management**: ConfigMaps for environment config
 
 ## Project Structure
+
+```
 devops-capstone/
-├── app/                    # Flask application
-│   ├── app.py
+├── app/
+│   ├── app.py              # Flask application
 │   ├── requirements.txt
 │   └── Dockerfile
-├── k8s/                    # Kubernetes manifests
-│   ├── deployment.yaml     # With liveness/readiness probes
+├── k8s/
+│   ├── deployment.yaml     # Liveness + readiness probes
 │   ├── service.yaml
 │   └── configmap.yaml
-├── terraform/              # AWS Infrastructure as Code
+├── terraform/
 │   ├── main.tf
 │   ├── variables.tf
 │   └── modules/
 │       ├── vpc/
 │       └── ec2/
-└── .github/workflows/
-└── ci-cd.yaml          # Full CI/CD pipeline
+└── .github/
+    └── workflows/
+        └── ci-cd.yaml
+```
 
 ## CI/CD Pipeline
 git push → test (9s) → build+push (20s) → deploy (19s) → LIVE
